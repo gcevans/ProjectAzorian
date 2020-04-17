@@ -12,4 +12,4 @@ $(EXENAME): $(TEMPLATE_DEPS) main.cpp
 
 .PHONY: clean
 clean:
-	rm -f *.o $(EXENAME)
+	rm -rf *.o $(EXENAME) *.dSYM
