@@ -2,6 +2,7 @@
 #include <string>
 
 #include "Vertex.h"
+#include "Edge.h"
 
 using std::cout;
 using std::endl;
@@ -11,6 +12,11 @@ int main() {
     Vertex<string> zero("zero");
     Vertex<string> one("one");
     Vertex<string> one_number_two;
+    Edge<Vertex<string>, int> zero_one_edge(&zero, &one, 1);
+
+    cout << "Edge Zero One" << endl;
+    zero_one_edge.print();
+    cout << endl;
 
     one_number_two = one;
     
