@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <memory>
+#include <vector>
 
 #include "Vertex.h"
 #include "Edge.h"
@@ -7,30 +9,46 @@
 using std::cout;
 using std::endl;
 using std::string;
+using std::shared_ptr;
+
+std::vector<Edge<Vertex<string>, int>> makeEdges() {
+    std::vector<Edge<Vertex<string>, int>>edges;
+    shared_ptr<Vertex<string>> zero(new Vertex<string>("zero"));
+    shared_ptr<Vertex<string>> one(new Vertex<string>("one"));
+    shared_ptr<Vertex<string>> two(new Vertex<string>("two"));
+    edges.push_back(Edge<Vertex<string>, int>(zero, one, 1));
+    edges.push_back(Edge<Vertex<string>, int>(one, two, 1));
+    edges.push_back(Edge<Vertex<string>, int>(two, zero, 2));
+
+    return edges;
+}
 
 int main() {
-    Vertex<string> zero("zero");
-    Vertex<string> one("one");
-    Vertex<string> one_number_two;
-    Edge<Vertex<string>, int> zero_one_edge(&zero, &one, 1);
+    // shared_ptr<Vertex<string>> zero(new Vertex<string>("zero"));
+    // shared_ptr<Vertex<string>> one(new Vertex<string>("one"));
+    // shared_ptr<Vertex<string>> two(new Vertex<string>("two"));
+    // Vertex<string> one_number_two;
 
-    cout << "Edge Zero One" << endl;
-    zero_one_edge.print();
-    cout << endl;
+    auto edges = makeEdges();
 
-    one_number_two = one;
-    
-    cout << zero << endl;
-    cout << one << endl;
-    cout << one_number_two << endl;
-
-    if( one_number_two == zero) {
-        cout << "The world is wrong" << endl;
+    cout << "Edges" << endl;
+    for( auto edge : edges) {
+        edge.print();
+        cout << endl;
     }
+ 
+    // one_number_two = *one;
     
-    if( one_number_two != zero) {
-        cout << "The world is ok" << endl;
-    }
+    // cout << *zero << endl;
+    // cout << *one << endl;
+    // cout << one_number_two << endl;
 
+    // if( one_number_two == *zero) {
+    //     cout << "The world is wrong" << endl;
+    // }
+    
+    // if( one_number_two != *zero) {
+    //     cout << "The world is ok" << endl;
+    // }
     return 0;
 }
