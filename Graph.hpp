@@ -72,3 +72,15 @@ template<typename V, typename E>
 unsigned int Graph<V,E>::numEdges() const {
     return edges_.size();
 }
+
+
+//Helper Function
+template<typename V, typename E>
+bool Graph<V,E>::adjcent(shared_ptr<V> &v1, shared_ptr<V> &v2) const {
+    return false;
+}
+
+template<typename V, typename E>
+void Graph<V,E>::print() {
+
+}
