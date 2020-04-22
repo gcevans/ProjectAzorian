@@ -5,8 +5,8 @@
 #include <unordered_map>
 #include <vector>
 
-#include "Vertex.h"
 #include "Edge.h"
+#include "Vertex.h"
 
 using std::list;
 using std::shared_ptr;

@@ -1,5 +1,5 @@
 EXENAME = main
-TEMPLATE_DEPS = Vertex.h Vertex.hpp Edge.h Edge.hpp
+TEMPLATE_DEPS = Vertex.h Vertex.hpp Edge.h Edge.hpp Graph.h Graph.hpp
 
 CXX = clang++
 #CXX = g++
