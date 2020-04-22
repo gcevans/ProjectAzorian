@@ -3,8 +3,9 @@
 #include <memory>
 #include <vector>
 
-#include "Vertex.h"
 #include "Edge.h"
+#include "Graph.h"
+#include "Vertex.h"
 
 using std::cout;
 using std::endl;
@@ -24,6 +25,8 @@ std::vector<Edge<Vertex<string>, int>> makeEdges() {
 }
 
 int main() {
+    Graph<Vertex<string>,Edge<Vertex<string>, int>> G;
+    
     // shared_ptr<Vertex<string>> zero(new Vertex<string>("zero"));
     // shared_ptr<Vertex<string>> one(new Vertex<string>("one"));
     // shared_ptr<Vertex<string>> two(new Vertex<string>("two"));
