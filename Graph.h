@@ -25,7 +25,6 @@ public:
     const list<shared_ptr<E>> &incident(shared_ptr<V> &v);
     const list<const shared_ptr<const E>> &incident(shared_ptr<V> &v) const;
     int degree(shared_ptr<V> &v) const;
-    bool adjcent(shared_ptr<V> &v1, shared_ptr<V> &v2) const;
     unsigned int numVertices() const;
 
     //Edge Funtions
@@ -34,11 +33,12 @@ public:
     unsigned int numEdges() const;
 
     //Helper Function
+    bool adjcent(shared_ptr<V> &v1, shared_ptr<V> &v2) const;
     void print();
 
 private:
     unordered_map<shared_ptr<V>, list<shared_ptr<E>>> vertices_;
-    list<E> edges_;
+    list<shared_ptr<E>> edges_;
 };
 
 #include "Graph.hpp"

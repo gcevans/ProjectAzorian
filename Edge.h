@@ -4,6 +4,7 @@
 
 #include "Vertex.h"
 
+using std::pair;
 using std::shared_ptr;
 
 template <typename V, typename W>
@@ -13,9 +14,11 @@ public:
     void print();
     W weight() { return weight_; } ;
 
+    const pair<shared_ptr<V>, shared_ptr<V>> &ends() const { return ends_;}; 
+
 private:
     W weight_;
-    shared_ptr<V> ends_[2];
+    pair<shared_ptr<V>, shared_ptr<V>> ends_;
 };
 
 #include "Edge.hpp"
