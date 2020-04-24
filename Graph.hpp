@@ -23,20 +23,38 @@ void Graph<V,E>::erase(shared_ptr<V> &v) {
     vertices_.erase(v);
 }
 
+//TODO resolve shared code between const and non-const versions of incident
 template<typename V, typename E>
 const list<shared_ptr<E>> &Graph<V,E>::incident(shared_ptr<V> &v) {
-    return vertices_[v];
+    auto v_it = vertices_.find(v);
+
+    if(v_it != vertices_.end()) {
+        return v_it->second;
+    } else {
+        return empty_;
+    }
 }
 
 template<typename V, typename E>
 const list<const shared_ptr<const E>> &Graph<V,E>::incident(shared_ptr<V> &v) const {
-    return vertices_[v];
-}
+    auto v_it = vertices_.find(v);
 
+    if(v_it != vertices_.end()) {
+        return v_it->second;
+    } else {
+        return empty_;
+    }
+}
 
 template<typename V, typename E>
 int Graph<V,E>::degree(shared_ptr<V> &v) const {
-    return vertices_[v].size();
+    auto v_it = vertices_.find(v);
+
+    if(v_it != vertices_.end()) {
+        return v_it->second.size();
+    } else {
+        return 0;
+    }
 }
 
 template<typename V, typename E>
@@ -48,7 +66,16 @@ unsigned int Graph<V,E>::numVertices() const {
 //Edge Functions
 template<typename V, typename E>
 void Graph<V,E>::insert(shared_ptr<E> &e) {
-    edges_.push_back(e);
+    auto v1_it = vertices_.find(e->ends().first);
+    auto v2_it = vertices_.find(e->ends().second);
+
+    if(v1_it == vertices_.end() || v2_it == vertices_.end() ) {
+        return;
+    } else {
+        v1_it->second.push_back(e);
+        v2_it->second.push_back(e);
+        edges_.push_back(e);
+    }
 }
 
 template<typename V, typename E>
@@ -77,6 +104,27 @@ unsigned int Graph<V,E>::numEdges() const {
 //Helper Function
 template<typename V, typename E>
 bool Graph<V,E>::adjcent(shared_ptr<V> &v1, shared_ptr<V> &v2) const {
+    auto v1_it = vertices_.find(v1);
+    auto v2_it = vertices_.find(v2);
+
+    if(v1_it == vertices_.end() || v2_it == vertices_.end()) {
+        return false;
+    }
+
+    if( v1_it->second.size() > v2_it->second.size() ) {
+        for(auto v2_e : v2_it->second ) {
+            if( v2_e->ends().first == v1 || v2_e->ends().second == v1) {
+                return true;
+            }
+        }
+    } else {
+        for(auto v1_e : v1_it->second ) {
+            if( v1_e->ends().first == v2 || v1_e->ends().second == v2) {
+                return true;
+            }
+        }
+    }
+
     return false;
 }
 

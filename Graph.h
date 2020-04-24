@@ -39,6 +39,7 @@ public:
 private:
     unordered_map<shared_ptr<V>, list<shared_ptr<E>>> vertices_;
     list<shared_ptr<E>> edges_;
+    const list<shared_ptr<E>> empty_;
 };
 
 #include "Graph.hpp"
