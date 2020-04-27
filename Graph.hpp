@@ -5,6 +5,18 @@
 #include "Graph.h"
 
 
+template<typename V, typename E>
+Graph<V,E>::Graph(vector<shared_ptr<V>> vertices, vector<shared_ptr<E>> edeges){
+    for(auto vertex : vertices) {
+        insert(vertex);
+    }
+
+    for(auto edge : edeges) {
+        insert(edge);
+    }
+}
+
+
 //Vertex Functions
 template<typename V, typename E>
 void Graph<V,E>::insert(shared_ptr<V> &v) {

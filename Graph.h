@@ -17,7 +17,7 @@ template<typename V, typename E>
 class Graph {
 public:
     Graph() { };
-    // Graph(vector<shared_ptr<V>> v, vector<E> e) : vertices_(v), edges_(e) { };
+    Graph(vector<shared_ptr<V>> v, vector<shared_ptr<E>> e);
 
     //Vertex Functions
     void insert(shared_ptr<V> &v);
