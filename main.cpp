@@ -5,6 +5,7 @@
 
 #include "Edge.h"
 #include "Graph.h"
+#include "graph_algo.h"
 #include "Vertex.h"
 
 using std::cout;
@@ -63,6 +64,10 @@ int main() {
     cout << "G has " << G.numEdges() << " edges" << endl;
 
     G.print();
+
+    cout << "BFS G" << endl;
+    BFS(G);
+    cout << "BFS G Done" << endl;
 
     return 0;
 }

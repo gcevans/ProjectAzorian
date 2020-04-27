@@ -1,8 +1,7 @@
 EXENAME = main
-TEMPLATE_DEPS = Vertex.h Vertex.hpp Edge.h Edge.hpp Graph.h Graph.hpp
+TEMPLATE_DEPS = Vertex.h Vertex.hpp Edge.h Edge.hpp Graph.h Graph.hpp graph_algo.h graph_algo.hpp
 
 CXX = clang++
-#CXX = g++
 CXXFLAGS = -std=c++14 -g -O1 -Wall -Wextra
 
 all : $(EXENAME)

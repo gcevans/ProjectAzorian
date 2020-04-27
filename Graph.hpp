@@ -73,6 +73,16 @@ unsigned int Graph<V,E>::numVertices() const {
     return vertices_.size();
 }
 
+template<typename V, typename E>
+std::list<shared_ptr<const V>> Graph<V,E>::getListVertices() const {
+    std::list<shared_ptr<const V>> vertices;
+
+    for(auto v : vertices_) {
+        vertices.push_back(v.first);
+    }
+
+    return vertices;
+}
 
 //Edge Functions
 template<typename V, typename E>
