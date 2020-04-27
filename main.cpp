@@ -69,5 +69,10 @@ int main() {
     BFS(G);
     cout << "BFS G Done" << endl;
 
+    cout << "Vertices Adj to " << *vertices[0] << endl;
+    for(auto v : G.getListAdj(vertices[0])) {
+        cout << *v << endl;
+    }
+
     return 0;
 }

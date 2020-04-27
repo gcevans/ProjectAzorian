@@ -73,6 +73,8 @@ unsigned int Graph<V,E>::numVertices() const {
     return vertices_.size();
 }
 
+
+// TODO Reduce Code Sharing in getListVertices versions
 template<typename V, typename E>
 std::list<shared_ptr<const V>> Graph<V,E>::getListVertices() const {
     std::list<shared_ptr<const V>> vertices;
@@ -81,6 +83,45 @@ std::list<shared_ptr<const V>> Graph<V,E>::getListVertices() const {
         vertices.push_back(v.first);
     }
 
+    return vertices;
+}
+
+template<typename V, typename E>
+std::list<shared_ptr<V>> Graph<V,E>::getListVertices() {
+    std::list<shared_ptr<V>> vertices;
+
+    for(auto v : vertices_) {
+        vertices.push_back(v.first);
+    }
+
+    return vertices;
+}
+
+template<typename V, typename E>
+std::list<shared_ptr<const V>> Graph<V,E>::getListAdj(shared_ptr<V> &v) const {
+    std::list<shared_ptr<const V>> vertices;
+
+    for(auto edge : vertices_[v]) {
+        if(edge->ends().first == v ) {
+            vertices.push_back(edge->ends().second);
+        } else {
+            vertices.push_back(edge->ends().first);
+        }
+    }
+    return vertices;
+}
+
+template<typename V, typename E>
+std::list<shared_ptr<V>> Graph<V,E>::getListAdj(shared_ptr<V> &v)  {
+    std::list<shared_ptr<V>> vertices;
+
+    for(auto edge : vertices_[v]) {
+        if(edge->ends().first == v ) {
+            vertices.push_back(edge->ends().second);
+        } else {
+            vertices.push_back(edge->ends().first);
+        }
+    }
     return vertices;
 }
 
@@ -121,6 +162,15 @@ unsigned int Graph<V,E>::numEdges() const {
     return edges_.size();
 }
 
+template<typename V, typename E>
+list<shared_ptr<const E>> Graph<V,E>::getListEdges() const {
+    return edges_;
+}
+
+template<typename V, typename E>
+list<shared_ptr<E>> Graph<V,E>::getListEdges() {
+    return edges_;
+}
 
 //Helper Function
 template<typename V, typename E>

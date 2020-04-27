@@ -10,7 +10,7 @@ unordered_map<shared_ptr<const E>,edge_label> BFS( const Graph<V,E> &G) {
     unordered_map<shared_ptr<const V>,vertex_label> labeled_vertices;
 
     for(auto v : G.getListVertices() ) {
-        if(labeled_vertices[v] == vertex_label::UNEXPLORED_VERT) {
+        if(labeled_vertices[v] == UNEXPLORED_VERT) {
             BFS(G, v, labeled_vertices, labeled_edges );
         }
     }

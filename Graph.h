@@ -27,11 +27,16 @@ public:
     int degree(shared_ptr<V> &v) const;
     unsigned int numVertices() const;
     std::list<shared_ptr<const V>> getListVertices() const;
+    std::list<shared_ptr<V>> getListVertices();
+    std::list<shared_ptr<const V>> getListAdj(shared_ptr<V> &v) const;
+    std::list<shared_ptr<V>> getListAdj(shared_ptr<V> &v);
 
     //Edge Funtions
     void insert(shared_ptr<E> &e);
     void erase(shared_ptr<E> &e);
     unsigned int numEdges() const;
+    list<shared_ptr<const E>> getListEdges() const;
+    list<shared_ptr<E>> getListEdges();
 
     //Helper Function
     bool adjcent(shared_ptr<V> &v1, shared_ptr<V> &v2) const;
@@ -42,5 +47,6 @@ private:
     list<shared_ptr<E>> edges_;
     const list<shared_ptr<E>> empty_;
 };
+
 
 #include "Graph.hpp"
