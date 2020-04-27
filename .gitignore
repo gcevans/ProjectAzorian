@@ -76,3 +76,7 @@ Temporary Items
 .history
 
 # End of https://www.gitignore.io/api/c++,macos,visualstudiocode
+
+
+# project ignores
+main
