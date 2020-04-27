@@ -4,7 +4,6 @@
 
 #include "Graph.h"
 
-
 template<typename V, typename E>
 Graph<V,E>::Graph(vector<shared_ptr<V>> vertices, vector<shared_ptr<E>> edeges){
     for(auto vertex : vertices) {
@@ -142,5 +141,15 @@ bool Graph<V,E>::adjcent(shared_ptr<V> &v1, shared_ptr<V> &v2) const {
 
 template<typename V, typename E>
 void Graph<V,E>::print() {
+    std::cout << "V = { ";
+    for(auto v : vertices_) {
+        std::cout << *(v.first) << " "; 
+    }
+    std::cout << "}" << std::endl;
 
+    std::cout << "E = {" << std::endl;
+    for(auto e : edges_) {
+        std::cout << *e << std::endl;
+    }
+    std::cout << "}" << std::endl;
 }

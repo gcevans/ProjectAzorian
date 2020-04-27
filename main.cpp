@@ -9,56 +9,52 @@
 
 using std::cout;
 using std::endl;
+using std::make_pair;
+using std::pair;
 using std::string;
 using std::shared_ptr;
 
-typedef shared_ptr<Vertex<string>> v_type;
-typedef shared_ptr<Edge<Vertex<string>, int>> e_type;
-typedef Graph<Vertex<string>,Edge<Vertex<string>, int>> g_type;
-
-
+typedef Vertex<string> v_type;
+typedef shared_ptr<Vertex<string>> vp_type;
+typedef Edge<Vertex<string>, int> e_type;
+typedef shared_ptr<Edge<Vertex<string>, int>> ep_type;
+typedef Graph<v_type, e_type> g_type;
 
 int main() {
-    shared_ptr<Vertex<string>> zero(new Vertex<string>("zero"));
-    shared_ptr<Vertex<string>> one(new Vertex<string>("one"));
-    shared_ptr<Vertex<string>> two(new Vertex<string>("two"));
-    shared_ptr<Edge<Vertex<string>, int>> one_two(new Edge<Vertex<string>, int>(one, two, 1));
-    Vertex<string> one_number_two;
 
-    vector<shared_ptr<Vertex<string>>> v = {zero, one, two};
-    vector<shared_ptr<Edge<Vertex<string>, int>>> e = {one_two};
+    vector<string> names = {"A","B","C","D","E","F","G","H"};
+    vector<pair<int,int>> connections;
+    connections.push_back(make_pair(0,1));
+    connections.push_back(make_pair(0,2));
+    connections.push_back(make_pair(0,3));
+    connections.push_back(make_pair(1,2));
+    connections.push_back(make_pair(1,4));
+    connections.push_back(make_pair(2,3));
+    connections.push_back(make_pair(2,4));
+    connections.push_back(make_pair(2,5));
+    connections.push_back(make_pair(3,5));
+    connections.push_back(make_pair(3,7));
+    connections.push_back(make_pair(4,6));
+    connections.push_back(make_pair(5,6));
+    connections.push_back(make_pair(6,7));
 
+    vector<vp_type> vertices;
+    vector<ep_type> edges;
 
-    Graph<Vertex<string>,Edge<Vertex<string>, int>> G(v,e);
-
-    // cout << "Graph G has " << G.numVertices() << " Verticies" << endl;
-    // cout << "Insert vertex zero" << endl;
-    // G.insert(zero);
-    // G.insert(one);
-    // G.insert(two);
-    // G.insert(one_two);
-    cout << "Graph G has " << G.numVertices() << " Verticies" << endl;
-    cout << "Graph G has " << G.numEdges() << " Edges" << endl;
-    if(G.adjcent(one,two)) {
-        cout << "One is adjcent to two and everything is fine." << endl;
-    }
-    if(!G.adjcent(zero,one)) {
-        cout << "Zero is not adjacent to one and everything is fine." << endl;
+    for(string name : names) {
+        vertices.push_back(vp_type(new v_type(name) ) );
     }
 
-
-    one_number_two = *one;
-    
-    cout << *zero << endl;
-    cout << *one << endl;
-    cout << one_number_two << endl;
-
-    if( one_number_two == *zero) {
-        cout << "The world is wrong" << endl;
+    for(auto edge : connections) {
+        edges.push_back(ep_type(new e_type(vertices[edge.first],vertices[edge.second],1)));
     }
-    
-    if( one_number_two != *zero) {
-        cout << "The world is ok" << endl;
-    }
+
+    g_type G(vertices, edges);
+
+    cout << "G has " << G.numVertices() << " vertices" << endl;
+    cout << "G has " << G.numEdges() << " edges" << endl;
+
+    G.print();
+
     return 0;
 }
