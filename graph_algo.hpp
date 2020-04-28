@@ -18,7 +18,6 @@ unordered_map<shared_ptr<const E>,edge_label> BFS( const Graph<V,E> &G) {
     return labeled_edges;
 }
 
-
 template<typename V, typename E>
 void BFS( const Graph<V,E> &G,
             shared_ptr< const V> &start,
