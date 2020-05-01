@@ -64,13 +64,13 @@ int main() {
 
     cout << "G has " << G.numVertices() << " vertices" << endl;
     cout << "G has " << G.numEdges() << " edges" << endl;
-
     G.print();
+    cout << "--------------------" << endl;
 
     cout << "BFS G" << endl;
     auto labeled_edges = BFS(G);
     cout << "BFS G Done" << endl;
-
+    cout << "--------------------" << endl;
 
     for(auto e : labeled_edges ) {
         if(e.second == DISCOVERY_EDGE) {
@@ -81,23 +81,7 @@ int main() {
             cout << "WTF Happened with " << *(e.first) << endl;
         }
     }
-
-    vector<pair<int,int>> c_sssp;
-    c_sssp.push_back(make_pair(0,1));
-    c_sssp.push_back(make_pair(0,2));
-    c_sssp.push_back(make_pair(0,3));
-    c_sssp.push_back(make_pair(1,2));
-    c_sssp.push_back(make_pair(1,4));
-    c_sssp.push_back(make_pair(2,3));
-    c_sssp.push_back(make_pair(2,4));
-    c_sssp.push_back(make_pair(2,5));
-    c_sssp.push_back(make_pair(3,5));
-    c_sssp.push_back(make_pair(3,7));
-    c_sssp.push_back(make_pair(4,6));
-    c_sssp.push_back(make_pair(5,6));
-    c_sssp.push_back(make_pair(6,7));
-    vector<ep_type> e_sssp = make_edges(vertices, c_sssp);
-    g_type GSSSP(vertices,e_sssp);
+    cout << "--------------------" << endl;
 
     return 0;
 }
