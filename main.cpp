@@ -30,9 +30,11 @@ vector<vp_type> make_vertices(const vector<string> &names) {
 }
 
 vector<ep_type> make_edges(const vector<vp_type> &v, const vector<pair<int,int>> &connections) {
-    vector<ep_type> edges;    
+    vector<ep_type> edges;
+    int weight = 1;
     for(auto edge : connections) {
-        edges.push_back(ep_type(new e_type(v[edge.first],v[edge.second],1)));
+        edges.push_back(ep_type(new e_type(v[edge.first],v[edge.second],weight)));
+        weight = ( weight % 6 ) + 1;
     }
     return edges;
 }
@@ -80,10 +82,22 @@ int main() {
         }
     }
 
-    // cout << "Vertices Adj to " << *vertices[0] << endl;
-    // for(auto v : G.getListAdj(vertices[0])) {
-    //     cout << *v << endl;
-    // }
+    vector<pair<int,int>> c_sssp;
+    c_sssp.push_back(make_pair(0,1));
+    c_sssp.push_back(make_pair(0,2));
+    c_sssp.push_back(make_pair(0,3));
+    c_sssp.push_back(make_pair(1,2));
+    c_sssp.push_back(make_pair(1,4));
+    c_sssp.push_back(make_pair(2,3));
+    c_sssp.push_back(make_pair(2,4));
+    c_sssp.push_back(make_pair(2,5));
+    c_sssp.push_back(make_pair(3,5));
+    c_sssp.push_back(make_pair(3,7));
+    c_sssp.push_back(make_pair(4,6));
+    c_sssp.push_back(make_pair(5,6));
+    c_sssp.push_back(make_pair(6,7));
+    vector<ep_type> e_sssp = make_edges(vertices, c_sssp);
+    g_type GSSSP(vertices,e_sssp);
 
     return 0;
 }
