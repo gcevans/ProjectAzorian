@@ -66,13 +66,24 @@ int main() {
     G.print();
 
     cout << "BFS G" << endl;
-    BFS(G);
+    auto labeled_edges = BFS(G);
     cout << "BFS G Done" << endl;
 
-    cout << "Vertices Adj to " << *vertices[0] << endl;
-    for(auto v : G.getListAdj(vertices[0])) {
-        cout << *v << endl;
+
+    for(auto e : labeled_edges ) {
+        if(e.second == DISCOVERY_EDGE) {
+            cout << "Discovery Edge " << *(e.first) << endl;
+        } else if (e.second == CROSS_EDGE) {
+            cout << "Cross Edge " << *(e.first) << endl;
+        } else {
+            cout << "WTF Happened with " << *(e.first) << endl;
+        }
     }
+
+    // cout << "Vertices Adj to " << *vertices[0] << endl;
+    // for(auto v : G.getListAdj(vertices[0])) {
+    //     cout << *v << endl;
+    // }
 
     return 0;
 }

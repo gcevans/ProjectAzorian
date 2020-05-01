@@ -26,9 +26,9 @@ public:
     const list<const shared_ptr<const E>> &incident(shared_ptr<V> &v) const;
     int degree(shared_ptr<V> &v) const;
     unsigned int numVertices() const;
-    std::list<shared_ptr<const V>> getListVertices() const;
+    std::list<shared_ptr<V>> getListVertices() const;
     std::list<shared_ptr<V>> getListVertices();
-    std::list<shared_ptr<const V>> getListAdj(shared_ptr<V> &v) const;
+    std::list<shared_ptr<V>> getListAdj(shared_ptr<V> &v) const;
     std::list<shared_ptr<V>> getListAdj(shared_ptr<V> &v);
 
     //Edge Funtions

@@ -76,8 +76,8 @@ unsigned int Graph<V,E>::numVertices() const {
 
 // TODO Reduce Code Sharing in getListVertices versions
 template<typename V, typename E>
-std::list<shared_ptr<const V>> Graph<V,E>::getListVertices() const {
-    std::list<shared_ptr<const V>> vertices;
+std::list<shared_ptr<V>> Graph<V,E>::getListVertices() const {
+    std::list<shared_ptr<V>> vertices;
 
     for(auto v : vertices_) {
         vertices.push_back(v.first);
@@ -98,8 +98,8 @@ std::list<shared_ptr<V>> Graph<V,E>::getListVertices() {
 }
 
 template<typename V, typename E>
-std::list<shared_ptr<const V>> Graph<V,E>::getListAdj(shared_ptr<V> &v) const {
-    std::list<shared_ptr<const V>> vertices;
+std::list<shared_ptr<V>> Graph<V,E>::getListAdj(shared_ptr<V> &v) const {
+    std::list<shared_ptr<V>> vertices;
 
     for(auto edge : vertices_[v]) {
         if(edge->ends().first == v ) {
