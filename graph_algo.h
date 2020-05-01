@@ -21,4 +21,6 @@ void BFS( Graph<V,E> &G,
             unordered_map<shared_ptr<E>,edge_label> &labeled_edges
         );
 
+template<typename V, typename E>
+unordered_map<shared_ptr<V>,int> DijkstraAlgorithm( Graph<V,E> &G, shared_ptr<V> start);
 #include "graph_algo.hpp"

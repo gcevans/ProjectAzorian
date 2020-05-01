@@ -83,5 +83,13 @@ int main() {
     }
     cout << "--------------------" << endl;
 
+    cout << "DijkstraAlgorithm on G starting at " << *vertices[0] << endl; 
+
+    auto distances = DijkstraAlgorithm(G,vertices[0]);
+
+    for(auto vert : distances) {
+        cout << *(vert.first) << " : " << (vert.second) << endl;
+    }
+
     return 0;
 }

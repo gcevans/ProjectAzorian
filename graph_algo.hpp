@@ -28,14 +28,14 @@ void BFS( Graph<V,E> &G,
         ) {
     std::cout << "BFS from " << *start << std::endl;
         //initialize worklist
-        std::queue<std::pair<shared_ptr<V>,shared_ptr<E>>> worklist;
+        std::stack<std::pair<shared_ptr<V>,shared_ptr<E>>> worklist;
         std::pair<shared_ptr<V>,shared_ptr<E>> initstate = make_pair(start,shared_ptr<E>(nullptr));
         worklist.push( initstate );
 
         //while worklist not empty
         while( !worklist.empty() ) {
-            shared_ptr<V> v = worklist.front().first;
-            shared_ptr<E> v_path = worklist.front().second;
+            shared_ptr<V> v = worklist.top().first;
+            shared_ptr<E> v_path = worklist.top().second;
             worklist.pop();
 
             // Visit vertex updating path
@@ -65,4 +65,48 @@ void BFS( Graph<V,E> &G,
             }
         }
     std::cout << "BFS from " << *start << " finshed" << std::endl;
+}
+
+
+template<typename V, typename E>
+unordered_map<shared_ptr<V>,int> DijkstraAlgorithm( Graph<V,E> &G, shared_ptr<V> start) {
+    unordered_map<shared_ptr<V>,int> distances;
+    unordered_map<shared_ptr<V>,shared_ptr<E>> pred;
+    vector<shared_ptr<V>> pq;
+    for(auto v : G.getListVertices()) {
+        distances[v] = INT32_MAX;
+        pred[v] = shared_ptr<E>(nullptr);
+        pq.push_back(v);
+    }
+    distances[start] = 0;
+
+    while(pq.size() > 0) {
+        //remove smalles store in pq
+        auto smallest = pq.begin();
+        int cost = distances[*smallest];
+        for(auto it = pq.begin(); it != pq.end(); ++it) {
+            if(distances[*it] < cost ) {
+                smallest = it;
+                cost = distances[*it];
+            }
+        }
+        // index is index into pq of min cost vert
+        shared_ptr<V> u = *smallest;
+        pq.erase(smallest);
+
+        for( auto incident : G.incident(u) ) {
+            shared_ptr<V> v;
+
+            if( incident->ends().first == u ) {
+                v = incident->ends().second;
+            } else {
+                v = incident->ends().first;
+            }
+            if( ( incident->weight() + distances[u] ) < distances[v] ) {
+                distances[v] = incident->weight() + distances[u];
+                pred[v] = incident;
+            }
+        }
+    }
+    return distances;
 }
