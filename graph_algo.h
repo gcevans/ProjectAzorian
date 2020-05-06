@@ -23,4 +23,8 @@ void BFS( Graph<V,E> &G,
 
 template<typename V, typename E>
 unordered_map<shared_ptr<V>,int> DijkstraAlgorithm( Graph<V,E> &G, shared_ptr<V> start);
+
+template<typename V, typename E>
+Graph<V,E> PrimsAlgorithm(Graph<V,E> &G, shared_ptr<V> start);
+
 #include "graph_algo.hpp"

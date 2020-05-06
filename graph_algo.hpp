@@ -100,7 +100,7 @@ unordered_map<shared_ptr<V>,int> DijkstraAlgorithm( Graph<V,E> &G, shared_ptr<V>
             } else {
                 v = incident->ends().first;
             }
-            
+
             if( ( incident->weight() + distances[u] ) < distances[v] ) {
                 distances[v] = incident->weight() + distances[u];
                 pq.push(v); // ideally don't push but update v in pq.
@@ -109,4 +109,10 @@ unordered_map<shared_ptr<V>,int> DijkstraAlgorithm( Graph<V,E> &G, shared_ptr<V>
         }
     }
     return distances;
+}
+
+
+template<typename V, typename E>
+Graph<V,E> PrimsAlgorithm(Graph<V,E> &G, shared_ptr<V> start) {
+
 }

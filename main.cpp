@@ -134,6 +134,10 @@ int main() {
     for(auto vert : distances) {
         cout << *(vert.first) << " : " << (vert.second) << endl;
     }
+    cout << "--------------------" << endl;
+
+    cout << "Run Prim's Algoirth on G2 starting at " << *vertices_G2[0] << endl;
+    g_type MST_G2 = PrimsAlgorithm(G2, vertices_G2[0]);
 
     return 0;
 }
