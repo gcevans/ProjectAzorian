@@ -6,6 +6,8 @@
 
 #include "graph_algo.h"
 
+using std::priority_queue;
+
 template<typename V, typename E>
 unordered_map<shared_ptr<E>,edge_label> BFS( Graph<V,E> &G) {
     unordered_map<shared_ptr<E>,edge_label> labeled_edges;
@@ -72,27 +74,35 @@ template<typename V, typename E>
 unordered_map<shared_ptr<V>,int> DijkstraAlgorithm( Graph<V,E> &G, shared_ptr<V> start) {
     unordered_map<shared_ptr<V>,int> distances;
     unordered_map<shared_ptr<V>,shared_ptr<E>> pred;
-    vector<shared_ptr<V>> pq;
+
+    auto comp = [&](shared_ptr<V> l, shared_ptr<V> r){ return distances[l] > distances[r]; };
+    priority_queue<shared_ptr<V>, vector<shared_ptr<V>>, decltype(comp)> pq( comp );
+
     for(auto v : G.getListVertices()) {
+        if( v == start) {
+            distances[start] = 0;
+        } else {
         distances[v] = INT32_MAX;
+        }
         pred[v] = shared_ptr<E>(nullptr);
-        pq.push_back(v);
+        pq.push(v);
     }
-    distances[start] = 0;
 
     while(pq.size() > 0) {
-        //remove smalles store in pq
-        auto smallest = pq.begin();
-        int cost = distances[*smallest];
-        for(auto it = pq.begin(); it != pq.end(); ++it) {
-            if(distances[*it] < cost ) {
-                smallest = it;
-                cost = distances[*it];
-            }
-        }
-        // index is index into pq of min cost vert
-        shared_ptr<V> u = *smallest;
-        pq.erase(smallest);
+        // //remove smalles store in pq
+        // auto smallest = pq.begin();
+        // int cost = distances[*smallest];
+        // for(auto it = pq.begin(); it != pq.end(); ++it) {
+        //     if(distances[*it] < cost ) {
+        //         smallest = it;
+        //         cost = distances[*it];
+        //     }
+        // }
+        // // index is index into pq of min cost vert
+        // shared_ptr<V> u = *smallest;
+        // pq.erase(smallest);
+        shared_ptr<V> u = pq.top();
+        pq.pop();
 
         for( auto incident : G.incident(u) ) {
             shared_ptr<V> v;
@@ -104,6 +114,8 @@ unordered_map<shared_ptr<V>,int> DijkstraAlgorithm( Graph<V,E> &G, shared_ptr<V>
             }
             if( ( incident->weight() + distances[u] ) < distances[v] ) {
                 distances[v] = incident->weight() + distances[u];
+                // distances[v] is less than before
+                pq.push(v);
                 pred[v] = incident;
             }
         }
