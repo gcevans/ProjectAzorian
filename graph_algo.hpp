@@ -7,6 +7,8 @@
 #include "graph_algo.h"
 
 using std::priority_queue;
+using std::cout;
+using std::endl;
 
 template<typename V, typename E>
 unordered_map<shared_ptr<E>,edge_label> BFS( Graph<V,E> &G) {
@@ -92,19 +94,21 @@ unordered_map<shared_ptr<V>,int> DijkstraAlgorithm( Graph<V,E> &G, shared_ptr<V>
         shared_ptr<V> u = pq.top();
         pq.pop();
 
-        for( auto incident : G.incident(u) ) {
-            shared_ptr<V> v;
+        if(distances[u] != INT32_MAX) {
+            for( auto incident : G.incident(u) ) {
+                shared_ptr<V> v;
 
-            if( incident->ends().first == u ) {
-                v = incident->ends().second;
-            } else {
-                v = incident->ends().first;
-            }
+                if( incident->ends().first == u ) {
+                    v = incident->ends().second;
+                } else {
+                    v = incident->ends().first;
+                }
 
-            if( ( incident->weight() + distances[u] ) < distances[v] ) {
-                distances[v] = incident->weight() + distances[u];
-                pq.push(v); // ideally don't push but update v in pq.
-                pred[v] = incident;
+                if( ( incident->weight() + distances[u] ) < distances[v] ) {
+                    distances[v] = incident->weight() + distances[u];
+                    pq.push(v); // ideally don't push but update v in pq.
+                    pred[v] = incident;
+                }
             }
         }
     }
@@ -112,7 +116,79 @@ unordered_map<shared_ptr<V>,int> DijkstraAlgorithm( Graph<V,E> &G, shared_ptr<V>
 }
 
 
+// PrimMST(G, s):
+// Input: G, Graph;
+// s, vertex in G, starting vertex
+// Output: T, a minimum spanning tree (MST) of G
 template<typename V, typename E>
 Graph<V,E> PrimsAlgorithm(Graph<V,E> &G, shared_ptr<V> start) {
+    Graph<V,E> T;
 
+    // foreach (Vertex v : G):
+    //     d[v] = +inf
+    //     p[v] = NULL
+    // d[s] = 0
+    // PriorityQueue Q // min distance, defined by d[v]
+    // Q.buildHeap(G.vertices())
+    // Graph T // "labeled set"
+    unordered_map<shared_ptr<V>,int> distances;
+    unordered_map<shared_ptr<V>,shared_ptr<E>> pred;
+
+    auto comp = [&](shared_ptr<V> l, shared_ptr<V> r){ return distances[l] > distances[r]; };
+    priority_queue<shared_ptr<V>, vector<shared_ptr<V>>, decltype(comp)> pq( comp );
+
+    for(auto v : G.getListVertices()) {
+        if( v == start) {
+            distances[start] = 0;
+        } else {
+        distances[v] = INT32_MAX;
+        }
+        pred[v] = shared_ptr<E>(nullptr);
+        pq.push(v);
+    }
+
+    unordered_map<shared_ptr<V>,bool> processed;
+
+    // repeat n times:
+    while (G.numVertices() != T.numVertices()) {
+    //     Vertex m = Q.removeMin()
+        shared_ptr<V> m = pq.top();
+        pq.pop();
+        if(processed.find(m) == processed.end() ) {
+    //     T.add(m)
+            T.insert(m);
+            processed[m] = true;
+            if(pred[m] != nullptr) {
+                T.insert(pred[m]);
+            }
+            cout << "Processing " << *m << endl;
+    //     foreach (Vertex v : neighbors of m not in T):
+            for( auto incident : G.incident(m) ) {
+                shared_ptr<V> v;
+
+                if( incident->ends().first == m ) {
+                    v = incident->ends().second;
+                } else {
+                    v = incident->ends().first;
+                }
+
+                cout << "Checking " << *v << "with weight " << incident->weight() << endl;
+                if(processed.find(v) == processed.end() ) {
+        //         if cost(v, m) < d[v]:
+                    if(incident->weight() < distances[v]) {
+            //             d[v] = cost(v, m)
+                        distances[v] = incident->weight();
+            //             p[v] = m
+                        pred[v] = incident;
+                        cout << "inserting " << *v << "into pq with weight " << distances[v] << endl;
+                        pq.push(v);
+                        cout << "PQ top = " << *(pq.top()) << " with cost " << distances[pq.top()] << endl;
+                    }
+                }
+            }
+        }
+    }
+
+    // return T
+    return T;
 }

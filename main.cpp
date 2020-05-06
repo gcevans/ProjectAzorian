@@ -139,5 +139,10 @@ int main() {
     cout << "Run Prim's Algoirth on G2 starting at " << *vertices_G2[0] << endl;
     g_type MST_G2 = PrimsAlgorithm(G2, vertices_G2[0]);
 
+    cout << "MST of G2 is ";
+    MST_G2.print();
+
+    cout << "--------------------" << endl;
+
     return 0;
 }
