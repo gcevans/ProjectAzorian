@@ -89,18 +89,6 @@ unordered_map<shared_ptr<V>,int> DijkstraAlgorithm( Graph<V,E> &G, shared_ptr<V>
     }
 
     while(pq.size() > 0) {
-        // //remove smalles store in pq
-        // auto smallest = pq.begin();
-        // int cost = distances[*smallest];
-        // for(auto it = pq.begin(); it != pq.end(); ++it) {
-        //     if(distances[*it] < cost ) {
-        //         smallest = it;
-        //         cost = distances[*it];
-        //     }
-        // }
-        // // index is index into pq of min cost vert
-        // shared_ptr<V> u = *smallest;
-        // pq.erase(smallest);
         shared_ptr<V> u = pq.top();
         pq.pop();
 
@@ -112,10 +100,10 @@ unordered_map<shared_ptr<V>,int> DijkstraAlgorithm( Graph<V,E> &G, shared_ptr<V>
             } else {
                 v = incident->ends().first;
             }
+            
             if( ( incident->weight() + distances[u] ) < distances[v] ) {
                 distances[v] = incident->weight() + distances[u];
-                // distances[v] is less than before
-                pq.push(v);
+                pq.push(v); // ideally don't push but update v in pq.
                 pred[v] = incident;
             }
         }

@@ -29,18 +29,25 @@ vector<vp_type> make_vertices(const vector<string> &names) {
     return vertices;
 }
 
-vector<ep_type> make_edges(const vector<vp_type> &v, const vector<pair<int,int>> &connections) {
+vector<ep_type> make_edges(const vector<vp_type> &v, const vector<pair<int,int>> &c,
+    const vector<int> &weights) {
+
     vector<ep_type> edges;
-    int weight = 1;
-    for(auto edge : connections) {
-        edges.push_back(ep_type(new e_type(v[edge.first],v[edge.second],weight)));
-        weight = ( weight % 6 ) + 1;
+    for(size_t i = 0; i < c.size(); ++i) {
+        edges.push_back( ep_type( new e_type( v[c[i].first], v[c[i].second], weights[i]) ) );
     }
     return edges;
 }
 
-int main() {
+g_type makeGraph(vector<string> &names, vector<pair<int,int>> &connections,
+            vector<vp_type> &v, vector<ep_type> &e, const vector<int> &weights) {
+    v =  make_vertices(names);
+    e = make_edges(v, connections, weights);
 
+    return g_type(v, e);
+}
+
+g_type makeGraphOne(vector<vp_type> &v, vector<ep_type> &e) {
     vector<string> names = {"A","B","C","D","E","F","G","H"};
     vector<pair<int,int>> connections;
     connections.push_back(make_pair(0,1));
@@ -56,11 +63,48 @@ int main() {
     connections.push_back(make_pair(4,6));
     connections.push_back(make_pair(5,6));
     connections.push_back(make_pair(6,7));
+    vector<int> weights = {1,2,3,4,5,6,1,2,3,4,5,6,1};
 
-    vector<vp_type> vertices = make_vertices(names);
-    vector<ep_type> edges = make_edges(vertices, connections);
+    return makeGraph(names, connections, v, e, weights);
+}
 
-    g_type G(vertices, edges);
+g_type makeGraphTwo(vector<vp_type> &v, vector<ep_type> &e) {
+    vector<string> names = {"A","B","C","D","E","F"};
+    vector<pair<int,int>> connections;
+    vector<int>w;
+    connections.push_back(make_pair(0,1));
+    w.push_back(2);
+    connections.push_back(make_pair(0,3));
+    w.push_back(17);
+    connections.push_back(make_pair(0,5));
+    w.push_back(16);
+    connections.push_back(make_pair(1,2));
+    w.push_back(15);
+    connections.push_back(make_pair(1,3));
+    w.push_back(5);
+    connections.push_back(make_pair(2,3));
+    w.push_back(13);
+    connections.push_back(make_pair(2,4));
+    w.push_back(11);
+    connections.push_back(make_pair(3,4));
+    w.push_back(8);
+    connections.push_back(make_pair(3,5));
+    w.push_back(9);
+    connections.push_back(make_pair(4,5));
+    w.push_back(12);
+
+    return makeGraph(names, connections, v, e, w);
+}
+
+int main() {
+    vector<vp_type> vertices_G;
+    vector<ep_type> edges_G;
+    g_type G = makeGraphOne(vertices_G, edges_G);
+
+    vector<vp_type> vertices_G2;
+    vector<ep_type> edges_G2;
+    g_type G2 = makeGraphTwo(vertices_G2, edges_G2);
+
 
     cout << "G has " << G.numVertices() << " vertices" << endl;
     cout << "G has " << G.numEdges() << " edges" << endl;
@@ -83,9 +127,9 @@ int main() {
     }
     cout << "--------------------" << endl;
 
-    cout << "DijkstraAlgorithm on G starting at " << *vertices[0] << endl; 
+    cout << "DijkstraAlgorithm on G starting at " << *vertices_G[0] << endl; 
 
-    auto distances = DijkstraAlgorithm(G,vertices[0]);
+    auto distances = DijkstraAlgorithm(G,vertices_G[0]);
 
     for(auto vert : distances) {
         cout << *(vert.first) << " : " << (vert.second) << endl;
